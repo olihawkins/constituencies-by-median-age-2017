@@ -1,0 +1,9 @@
+{
+    "path" : "~/Data/Code/Node/vis/gridhist/production/condata",
+    "sortOrder" : [
+        {
+            "ascending" : true,
+            "columnIndex" : 2
+        }
+    ]
+}

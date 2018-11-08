@@ -1,0 +1,35 @@
+{
+  "name": "constituencies-by-median-age-2017",
+  "version": "1.0.0",
+  "description": "A D3 visualisation showing 2017 General Election results by median age in a grid histogram.",
+  "main": "webpack.config.js",
+  "scripts": {
+    "webpack": "webpack",
+    "start": "http-server -a localhost -p 8000 -c-1",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/olihawkins/constituencies-by-median-age-2017.git"
+  },
+  "author": "Oli Hawkins <oli@olihawkins.com> (http://olihawkins.com)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/olihawkins/constituencies-by-median-age-2017/issues"
+  },
+  "homepage": "https://github.com/olihawkins/constituencies-by-median-age-2017#readme",
+  "devDependencies": {
+    "@babel/core": "^7.1.5",
+    "@babel/plugin-transform-runtime": "^7.1.0",
+    "@babel/preset-env": "^7.1.5",
+    "babel-loader": "^8.0.4",
+    "d3": "^5.7.0",
+    "eslint": "^5.8.0",
+    "http-server": "^0.11.1",
+    "webpack": "^4.25.1",
+    "webpack-cli": "^3.1.2"
+  },
+  "dependencies": {
+    "@babel/runtime": "^7.1.5"
+  }
+}

@@ -1,0 +1,7 @@
+# Directories
+production/docs
+node_modules/
+
+# Files
+.DS_Store
+public/d3.min.js

@@ -1,0 +1,114 @@
+@import "https://fonts.googleapis.com/css?family=Open+Sans:400,700,400i,400i";
+
+body {
+	margin: 0;
+	padding: 0;
+	font-family: "Open Sans", sans-serif;
+	color: #404040;
+	max-width: 820px;
+}
+
+.visheading {
+	margin: 0;
+	margin-top: 10px;
+	padding: 0;
+	font-family: "Open Sans", sans-serif;
+	font-size: 24px;
+	font-weight: bold;
+	text-align: center
+}
+
+.container {
+	margin: 0px;
+	padding: 0px;
+}
+
+#visa {
+	display: inline-block;
+	margin: 0;
+	padding: 0;
+	float: "left";
+}
+
+#visb {
+	display: inline-block;
+	margin: 0;
+	padding: 0;
+	float: "right";
+}
+
+#visc {
+	display: inline-block;
+	margin: 0;
+	padding: 0;
+	float: "left";
+}
+
+#visd {
+	display: inline-block;
+	margin: 0;
+	padding: 0;
+	float: "right";
+}
+
+.charttitle {
+	padding: 0;
+	font-size: 18px;
+	line-height: 1em;
+	font-weight: bold;
+	text-align: center;
+}
+
+.chartsubtitle {
+	margin: 0;
+	margin-top: 0.3em;
+	padding: 0;
+	font-size: 14px;
+	line-height: 1em;
+	font-weight: normal;
+	text-align: center;
+}
+
+.xaxis {
+	font-family: "Open Sans", sans-serif;
+	font-size: 12pt;
+}
+
+.axislabel {
+	font-family: "Open Sans", sans-serif;
+	font-size: 12pt;
+}
+
+#infobox {
+	position: absolute;
+	padding: 5px 10px 5px 10px;
+	font-family: "Open Sans", sans-serif;
+	font-size: 11pt;
+	background: #ffffff;
+	border: 2px solid #d0d0d0;
+	border-radius: 6px;
+	pointer-events: none;
+	opacity: 0;
+}
+
+#infobox p {
+	margin: 0;
+	padding: 0;
+	line-height: 1.4;
+	font-family: "Open Sans", sans-serif;
+	font-size: 11pt;
+}
+
+#infobox p.constituency {
+	font-weight: bold;
+}
+
+#infobox p.party {
+	font-weight: bold;
+	/* text-shadow: 1.2px 1.2px #c0c0c0; */
+}
+
+.highlight {
+	stroke: #ffcc00;
+	stroke-width: 2px;
+}

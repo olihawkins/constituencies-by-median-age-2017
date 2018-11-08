@@ -1,0 +1,23 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1541426694195.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "7FB14927",
+    "lastKnownWriteTime" : 1541678274,
+    "last_content_update" : 1541678274158,
+    "path" : "~/Data/Code/Node/vis/constituencies-by-median-age-2017/production/condata/condata.R",
+    "project_path" : "condata.R",
+    "properties" : {
+        "cursorPosition" : "14,1",
+        "scrollLine" : "10",
+        "tempName" : "Untitled1"
+    },
+    "relative_order" : 1,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}
