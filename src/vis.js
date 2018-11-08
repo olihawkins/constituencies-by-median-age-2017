@@ -17,11 +17,10 @@ const FILE_CONS = "constituencies.csv";
 // Functions: Visualisation setup --------------------------------------------
 
 function setup(data) {
-
-    const visa = buildChart("#visa", getPartyConfig(data));
-    const visb = buildChart("#visb", getTurnoutConfig(data));
-    const visc = buildChart("#visc", getLabourConfig(data));
-    const visd = buildChart("#visd", getConservativeConfig(data));
+    buildChart("#visa", getPartyConfig(data));
+    buildChart("#visb", getTurnoutConfig(data));
+    buildChart("#visc", getLabourConfig(data));
+    buildChart("#visd", getConservativeConfig(data));
 }
 
 // Chart building functions ---------------------------------------------------
@@ -37,7 +36,7 @@ function buildChart(div, config) {
     const height = config.height - margin.top - margin.bottom;
 
     // Create the title
-    const title = d3.select(div)
+    d3.select(div)
         .append("p")
         .attr("class", "charttitle")
         .html(config.title)
@@ -154,7 +153,7 @@ function getConfig(data, sortFunc) {
 }
 
 function getPartyConfig(data) {
-    const config = getConfig(data, compareByPartyAndMajorityAlt);
+    const config = getConfig(data, compareByPartyAndMajority);
     config.width = 400;
     config.height = 646;
     config.maxCount = 49;
@@ -164,34 +163,26 @@ function getPartyConfig(data) {
     config.subtitle = "650 seats";
     config.shadeFunc = (d) => {
         switch (d.party) {
-            case "Con":
-                return "#0a559d";
-                break;
-            case "Lab":
-                return "#d20915";
-                break;
-            case "SNP":
-                return "#fff58c";
-            case "LD":
-                return "#f89f31";
-                break;
-            case "DUP":
-                return "#ca3415";
-                break;
-            case "SF":
-                return "#0d665f";
-                break;
-            case "PC":
-                return "#68b76b";
-                break;
-            case "Green":
-                return "#008000";
-                break;
-            case "Spk":
-                return "#909090";
-                break;
-            default:
-                return "#c0c0c0";
+        case "Con":
+            return "#0a559d";
+        case "Lab":
+            return "#d20915";
+        case "SNP":
+            return "#fff58c";
+        case "LD":
+            return "#f89f31";
+        case "DUP":
+            return "#ca3415";
+        case "SF":
+            return "#0d665f";
+        case "PC":
+            return "#68b76b";
+        case "Green":
+            return "#008000";
+        case "Spk":
+            return "#909090";
+        default:
+            return "#c0c0c0";
         }
     };
     return config;
@@ -209,18 +200,16 @@ function getTurnoutConfig(data) {
     config.showTurnout = true;
     config.title = "Constituencies by turnout";
     config.subtitle = "Darker is higher";
-    config.shadeFunc = (d) => {
-        return turnoutScale(d.turnout);
-    }
+    config.shadeFunc = d => turnoutScale(d.turnout);
     return config;
 }
 
 function getLabourConfig(data) {
     const labScale = d3.scaleQuantize()
         .domain([0, 1])
-        .range(d3.schemeReds[5])
-    const con = data.filter(d => d.party == "Lab")
-    const config = getConfig(con, compareByPartyAndMajorityAlt);
+        .range(d3.schemeReds[5]);
+    const con = data.filter(d => d.party == "Lab");
+    const config = getConfig(con, compareByPartyAndMajority);
     config.width = 400;
     config.height = 445;
     config.minMed = 26;
@@ -230,18 +219,16 @@ function getLabourConfig(data) {
     config.showTurnout = false;
     config.title = "Labour seats by majority";
     config.subtitle = "Darker is higher";
-    config.shadeFunc = (d) => {
-        return labScale(d.majScore);
-    }
+    config.shadeFunc = (d) => labScale(d.majScore);
     return config;
 }
 
 function getConservativeConfig(data) {
     const conScale = d3.scaleQuantize()
         .domain([0, 1])
-        .range(d3.schemePuBu[5])
-    const con = data.filter(d => d.party == "Con")
-    const config = getConfig(con, compareByPartyAndMajorityAlt);
+        .range(d3.schemePuBu[5]);
+    const con = data.filter(d => d.party == "Con");
+    const config = getConfig(con, compareByPartyAndMajority);
     config.width = 400;
     config.height = 445;
     config.minMed = 26;
@@ -251,9 +238,7 @@ function getConservativeConfig(data) {
     config.showTurnout = false;
     config.title = "Conservative seats by majority";
     config.subtitle = "Darker is higher";
-    config.shadeFunc = (d) => {
-        return conScale(d.majScore);
-    }
+    config.shadeFunc = (d) => conScale(d.majScore);
     return config;
 }
 
@@ -261,46 +246,18 @@ function getConservativeConfig(data) {
 
 function getConsByMedianAge(data, minMed, maxMed) {
     const index = [...Array(maxMed - minMed + 1).keys()];
-    const cons = index.map(i => new Array());
+    const cons = index.map(() => new Array());
     data.forEach(d => cons[d.median_age - minMed].push(d));
     return cons;
 }
 
 // Sorting functions ----------------------------------------------------------
 
-function compareByParty(a, b) {
-    const ranks = ["Con", "Lab", "SNP", "LD", "DUP",
-        "SF", "PC", "Green", "Ind", "Spk"]
-    const ar = ranks.indexOf(a.party)
-    const br = ranks.indexOf(b.party)
-    return ar - br
-}
-
-function compareByPartyAlt(a, b) {
-    const ranks = ["Lab", "Con", "SNP", "LD", "DUP",
-        "SF", "PC", "Green", "Ind", "Spk"]
-    const ar = ranks.indexOf(a.party)
-    const br = ranks.indexOf(b.party)
-    return ar - br
-}
-
 function compareByPartyAndMajority(a, b) {
-    const ranks = ["Con", "Lab", "SNP", "LD", "DUP",
-        "SF", "PC", "Green", "Ind", "Spk"]
-    const ar = ranks.indexOf(a.party)
-    const br = ranks.indexOf(b.party)
-    if (ar - br == 0) {
-        return (+a.majority - +b.majority) * -1;
-    } else {
-        return ar - br;
-    }
-}
-
-function compareByPartyAndMajorityAlt(a, b) {
     const ranks = ["Lab", "Con", "SNP", "LD", "DUP",
-        "SF", "PC", "Green", "Ind", "Spk"]
-    const ar = ranks.indexOf(a.party)
-    const br = ranks.indexOf(b.party)
+        "SF", "PC", "Green", "Ind", "Spk"];
+    const ar = ranks.indexOf(a.party);
+    const br = ranks.indexOf(b.party);
     if (ar - br == 0) {
         return (+a.majority - +b.majority) * -1;
     } else {
@@ -318,7 +275,6 @@ function showInfoBox(infobox, constituency, party, highlight,
     majority, showMajority, turnout, showTurnout) {
 
     const boxHeight = infobox.node().getBoundingClientRect().height;
-    const partyLabel = (party) ? " (" + party + ")" : "";
 
     let html = `<p class="constituency">${constituency}</p>
         <p class="party" style="color: ${highlight};">${party}</p>`;
@@ -350,70 +306,53 @@ function hideInfoBox(infobox) {
 
 function getFullPartyLabel(d) {
     switch (d.party) {
-        case "Con":
-            return "Conservative";
-            break;
-        case "Lab":
-            return "Labour";
-            break;
-        case "SNP":
-            return "Scottish National Party";
-        case "LD":
-            return "Liberal Democrat";
-            break;
-        case "DUP":
-            return "DUP";
-            break;
-        case "SF":
-            return "Sinn Fein";
-            break;
-        case "PC":
-            return "Plaid Cymru";
-            break;
-        case "Green":
-            return "Green";
-            break;
-        case "Spk":
-            return "Speaker";
-            break;
-        case "Ind":
-            return "Indpendent";
-            break;
-        default:
-            return "Unknown";
+    case "Con":
+        return "Conservative";
+    case "Lab":
+        return "Labour";
+    case "SNP":
+        return "Scottish National Party";
+    case "LD":
+        return "Liberal Democrat";
+    case "DUP":
+        return "DUP";
+    case "SF":
+        return "Sinn Fein";
+    case "PC":
+        return "Plaid Cymru";
+    case "Green":
+        return "Green";
+    case "Spk":
+        return "Speaker";
+    case "Ind":
+        return "Indpendent";
+    default:
+        return "Unknown";
     }
 }
 
 function shadeLabelByParty(d) {
     switch (d.party) {
-        case "Con":
-            return "#0a559d";
-            break;
-        case "Lab":
-            return "#d20915";
-            break;
-        case "SNP":
-            return "#ffd060";
-        case "LD":
-            return "#f89f31";
-            break;
-        case "DUP":
-            return "#ca3415";
-            break;
-        case "SF":
-            return "#0d665f";
-            break;
-        case "PC":
-            return "#68b76b";
-            break;
-        case "Green":
-            return "#008000";
-            break;
-        case "Spk":
-            return "#909090";
-            break;
-        default:
-            return "#c0c0c0";
+    case "Con":
+        return "#0a559d";
+    case "Lab":
+        return "#d20915";
+    case "SNP":
+        return "#ffd060";
+    case "LD":
+        return "#f89f31";
+    case "DUP":
+        return "#ca3415";
+    case "SF":
+        return "#0d665f";
+    case "PC":
+        return "#68b76b";
+    case "Green":
+        return "#008000";
+    case "Spk":
+        return "#909090";
+    default:
+        return "#c0c0c0";
     }
 }
 
