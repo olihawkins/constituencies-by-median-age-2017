@@ -101,6 +101,7 @@ function buildChart(div, config) {
                 d.constituency,
                 getFullPartyLabel(d),
                 shadeLabelByParty(d),
+                d.medianAge,
                 d.majority,
                 config.showMajority,
                 d.turnout,
@@ -137,6 +138,7 @@ function getConfig(data, sortFunc) {
         if (a.length > maxCount) maxCount = a.length;
         a.sort(sortFunc);
         a.forEach((d, i) => {
+            d.medianAge = +d.median_age;
             d.xindex = +d.median_age;
             d.yindex = i;
             d.majScore = +d.majority / maxMajority;
@@ -157,8 +159,8 @@ function getPartyConfig(data) {
     config.width = 400;
     config.height = 646;
     config.maxCount = 49;
-    config.showMajority = true;
-    config.showTurnout = true;
+    config.showMajority = false;
+    config.showTurnout = false;
     config.title = "Constituencies by party";
     config.subtitle = "650 seats";
     config.shadeFunc = (d) => {
@@ -271,13 +273,14 @@ function compareByTurnout(a, b) {
 
 // Infobox functions ----------------------------------------------------------
 
-function showInfoBox(infobox, constituency, party, highlight,
+function showInfoBox(infobox, constituency, party, highlight, medianAge,
     majority, showMajority, turnout, showTurnout) {
 
     const boxHeight = infobox.node().getBoundingClientRect().height;
 
     let html = `<p class="constituency">${constituency}</p>
-        <p class="party" style="color: ${highlight};">${party}</p>`;
+        <p class="party" style="color: ${highlight};">${party}</p>
+        <p>Median age: ${medianAge}</p>`;
 
     if (showMajority) {
         html = `${html}<p>Majority: ${numberWithCommas(majority)}</p>`;
