@@ -1,6 +1,6 @@
 {
   "name": "constituencies-by-median-age-2017",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A D3 visualisation showing 2017 General Election results by median age in a grid histogram.",
   "main": "webpack.config.js",
   "scripts": {
