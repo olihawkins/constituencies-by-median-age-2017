@@ -9,6 +9,7 @@ import "./libs/polyfill/array/keys.js";
 import "./libs/polyfill/window/fetch.js";
 import "./libs/polyfill/window/Promise.js";
 import * as d3 from "d3";
+import * as pym from "pym.js";
 
 // Global constants ----------------------------------------------------------
 
@@ -21,6 +22,7 @@ function setup(data) {
     buildChart("#visb", getTurnoutConfig(data));
     buildChart("#visc", getLabourConfig(data));
     buildChart("#visd", getConservativeConfig(data));
+    window.pymChild = new pym.Child();
 }
 
 // Chart building functions ---------------------------------------------------
@@ -110,10 +112,6 @@ function buildChart(div, config) {
         .on("mouseout", (d, i, n) => {
             d3.select(n[i]).attr("fill", config.shadeFunc);
             hideInfoBox(infobox);
-        })
-        .on("click", (d, i, n) => {
-            d3.select(n[i]).attr("fill", config.shadeFunc);
-            hideInfoBox(infobox);
         });
 
     return vis;
@@ -156,8 +154,8 @@ function getConfig(data, sortFunc) {
 
 function getPartyConfig(data) {
     const config = getConfig(data, compareByPartyAndMajority);
-    config.width = 400;
-    config.height = 646;
+    config.width = 350;
+    config.height = 565;
     config.maxCount = 49;
     config.showMajority = false;
     config.showTurnout = false;
@@ -195,8 +193,8 @@ function getTurnoutConfig(data) {
         .domain([0.5, 0.8])
         .range(d3.schemeBuGn[5]);
     const config = getConfig(data, compareByTurnout);
-    config.width = 400;
-    config.height = 646;
+    config.width = 350;
+    config.height = 565;
     config.maxCount = 49;
     config.showMajority = false;
     config.showTurnout = true;
@@ -212,8 +210,8 @@ function getLabourConfig(data) {
         .range(d3.schemeReds[5]);
     const con = data.filter(d => d.party == "Lab");
     const config = getConfig(con, compareByPartyAndMajority);
-    config.width = 400;
-    config.height = 445;
+    config.width = 350;
+    config.height = 389;
     config.minMed = 26;
     config.maxMed = 54;
     config.maxCount = 31;
@@ -231,8 +229,8 @@ function getConservativeConfig(data) {
         .range(d3.schemePuBu[5]);
     const con = data.filter(d => d.party == "Con");
     const config = getConfig(con, compareByPartyAndMajority);
-    config.width = 400;
-    config.height = 445;
+    config.width = 350;
+    config.height = 389;
     config.minMed = 26;
     config.maxMed = 54;
     config.maxCount = 31;
